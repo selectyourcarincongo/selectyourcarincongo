@@ -7,7 +7,7 @@ import uuid
 import os
 
 from models import (
-    UserCreate, UserLogin, Token, UserResponse, User, UserRole,
+    UserCreate, UserLogin, Token, UserResponse, User, UserRole, AccountType,
     VehicleCreate, Vehicle, VehicleUpdate, VehicleStatus,
     PaymentInitiate, Payment, PaymentStatus, PaymentMethod, PaymentProofUpload,
     MessageCreate, Message
