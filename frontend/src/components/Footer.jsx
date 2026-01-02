@@ -20,10 +20,17 @@ const Footer = () => {
               <li><Link to="/" className="text-gray-400 hover:text-white transition">Accueil</Link></li>
               <li><Link to="/vehicles" className="text-gray-400 hover:text-white transition">Parcourir les véhicules</Link></li>
               <li><Link to="/register" className="text-gray-400 hover:text-white transition">Inscription</Link></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-white transition">Contact</Link></li>
             </ul>
           </div>
           
           <div>
+            <h3 className="text-lg font-semibold mb-4">Légal</h3>
+            <ul className="space-y-2">
+              <li><Link to="/terms" className="text-gray-400 hover:text-white transition">Conditions d'utilisation</Link></li>
+              <li><Link to="/privacy" className="text-gray-400 hover:text-white transition">Politique de confidentialité</Link></li>
+            </ul>
+          </div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <p className="text-gray-400">Brazzaville, République du Congo</p>
             <p className="text-gray-400 mt-2">Paiement : +242 068 913 333</p>
