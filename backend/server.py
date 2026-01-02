@@ -311,24 +311,38 @@ async def initiate_payment(
     """Initiate payment (MTN Mobile Money - Sandbox)"""
     db = get_database()
     
-    # Check if user already has a completed payment
-    existing_payment = await db["payments"].find_one({
-        "user_id": current_user.id,
-        "status": PaymentStatus.COMPLETED
-    })
-    
-    if existing_payment:
-        raise HTTPException(status_code=400, detail="Payment already completed")
+    # Determine payment amount based on purpose and account type
+    if payment_data.payment_purpose == "registration":
+        if current_user.account_type == AccountType.SALE:
+            amount = settings.registration_fee_sale_xaf
+        else:  # RENTAL
+            amount = settings.registration_fee_rental_xaf
+            
+        # Check if user already has a completed registration payment
+        existing_payment = await db["payments"].find_one({
+            "user_id": current_user.id,
+            "payment_purpose": "registration",
+            "status": PaymentStatus.COMPLETED
+        })
+        
+        if existing_payment:
+            raise HTTPException(status_code=400, detail="Registration fee already paid")
+    else:  # posting
+        if current_user.account_type == AccountType.SALE:
+            amount = settings.posting_fee_sale_xaf
+        else:  # RENTAL
+            amount = settings.posting_fee_rental_xaf
     
     # Create payment record
-    external_id = f"congo_auto_{current_user.id}_{int(datetime.utcnow().timestamp())}"
+    external_id = f"scic_{payment_data.payment_purpose}_{current_user.id}_{int(datetime.utcnow().timestamp())}"
     x_reference_id = str(uuid.uuid4())
     
     payment_dict = {
         "_id": str(uuid.uuid4()),
         "user_id": current_user.id,
-        "amount": settings.registration_fee_xaf,
+        "amount": amount,
         "currency": "XAF",
+        "payment_purpose": payment_data.payment_purpose,
         "external_id": external_id,
         "x_reference_id": x_reference_id,
         "payment_method": PaymentMethod.MTN_MOBILE_MONEY,
@@ -345,11 +359,13 @@ async def initiate_payment(
         "payment_id": payment_dict["_id"],
         "external_id": external_id,
         "x_reference_id": x_reference_id,
-        "amount": settings.registration_fee_xaf,
+        "amount": amount,
         "currency": "XAF",
+        "purpose": payment_data.payment_purpose,
+        "account_type": current_user.account_type.value,
         "merchant_phone": settings.merchant_phone,
         "merchant_code": settings.merchant_code,
-        "instructions": "Please transfer 7,500 FCFA via MTN Mobile Money to +242068913333 or use Merchant Code: 374575. Then upload proof of payment.",
+        "instructions": f"Please transfer {amount} FCFA via MTN Mobile Money to +{settings.merchant_phone} or use Merchant Code: {settings.merchant_code}. Then upload proof of payment.",
         "status": "pending"
     }
 
