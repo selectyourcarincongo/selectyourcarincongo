@@ -38,6 +38,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/post-vehicle" element={<PostVehicle />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
           </Routes>
         </main>
         <Footer />
