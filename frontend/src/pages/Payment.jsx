@@ -128,27 +128,34 @@ const Payment = () => {
         {/* Payment Instructions */}
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Registration Fee: 7,500 FCFA</CardTitle>
+            <CardTitle>
+              Frais d'inscription : {user?.account_type === 'sale' ? '3,000 FCFA' : '1,500 FCFA'}
+            </CardTitle>
+            <p className="text-sm text-gray-600 mt-2">
+              {user?.account_type === 'sale' 
+                ? 'Compte Vente - 1ère annonce gratuite, puis 3,000 FCFA/annonce'
+                : 'Compte Location - 1ère annonce gratuite, puis 1,500 FCFA/annonce'}
+            </p>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="bg-primary-50 p-4 rounded-lg">
-              <h3 className="font-semibold mb-2 text-primary">MTN Mobile Money Payment</h3>
+              <h3 className="font-semibold mb-2 text-primary">Paiement MTN Mobile Money</h3>
               <div className="space-y-2 text-sm">
-                <p><strong>Recipient Number:</strong> +242 068 913 333</p>
-                <p><strong>Merchant Code:</strong> 374575</p>
-                <p><strong>Amount:</strong> 7,500 FCFA</p>
+                <p><strong>Numéro destinataire :</strong> +242 068 913 333</p>
+                <p><strong>Code Merchant :</strong> 374575</p>
+                <p><strong>Montant :</strong> {user?.account_type === 'sale' ? '3,000 FCFA' : '1,500 FCFA'}</p>
               </div>
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-semibold">Payment Steps:</h4>
+              <h4 className="font-semibold">Étapes de paiement :</h4>
               <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
-                <li>Open MTN Mobile Money on your phone</li>
-                <li>Select "Send Money" or "Pay Merchant"</li>
-                <li>Enter merchant code: <strong>374575</strong> or number: <strong>+242 068 913 333</strong></li>
-                <li>Enter amount: <strong>7,500 FCFA</strong></li>
-                <li>Confirm the transaction</li>
-                <li>Upload proof below or wait for automatic verification</li>
+                <li>Ouvrez MTN Mobile Money sur votre téléphone</li>
+                <li>Sélectionnez "Envoyer de l'argent" ou "Payer Marchand"</li>
+                <li>Entrez le code merchant : <strong>374575</strong> ou numéro : <strong>+242 068 913 333</strong></li>
+                <li>Entrez le montant : <strong>{user?.account_type === 'sale' ? '3,000 FCFA' : '1,500 FCFA'}</strong></li>
+                <li>Confirmez la transaction</li>
+                <li>Téléchargez la preuve ci-dessous ou attendez la vérification automatique</li>
               </ol>
             </div>
 
