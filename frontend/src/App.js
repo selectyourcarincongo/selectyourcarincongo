@@ -13,8 +13,11 @@ import Home from '@/pages/Home';
 import Register from '@/pages/Register';
 import Login from '@/pages/Login';
 import Vehicles from '@/pages/Vehicles';
+import VehicleDetails from '@/pages/VehicleDetails';
 import Payment from '@/pages/Payment';
 import Dashboard from '@/pages/Dashboard';
+import PostVehicle from '@/pages/PostVehicle';
+import AdminDashboard from '@/pages/AdminDashboard';
 
 function App() {
   return (
@@ -27,8 +30,11 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/vehicles" element={<Vehicles />} />
+            <Route path="/vehicles/:id" element={<VehicleDetails />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/post-vehicle" element={<PostVehicle />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </main>
         <Footer />
