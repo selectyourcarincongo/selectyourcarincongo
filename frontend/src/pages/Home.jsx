@@ -134,9 +134,9 @@ const Home = () => {
       {/* CTA Section */}
       <section className="py-16 congo-gradient text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Sell Your Vehicle?</h2>
+          <h2 className="text-3xl font-bold mb-4">Prêt à Vendre ou Louer Votre Véhicule ?</h2>
           <p className="text-xl mb-8 text-white/90">
-            Register today for only 7,500 FCFA and start selling
+            Inscrivez-vous aujourd'hui : 3,000 FCFA (vente) ou 1,500 FCFA (location) + 1ère annonce gratuite !
           </p>
           <Button
             size="lg"
@@ -144,7 +144,7 @@ const Home = () => {
             className="text-lg px-8 bg-white text-primary hover:bg-gray-100"
             onClick={() => navigate('/register')}
           >
-            Get Started Now
+            Commencer Maintenant
           </Button>
         </div>
       </section>
