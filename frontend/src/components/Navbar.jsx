@@ -30,10 +30,10 @@ const Navbar = () => {
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/" className="text-gray-700 hover:text-primary font-medium transition">
-              Home
+              Accueil
             </Link>
             <Link to="/vehicles" className="text-gray-700 hover:text-primary font-medium transition">
-              Vehicles
+              Véhicules
             </Link>
             {authenticated && (
               <>
