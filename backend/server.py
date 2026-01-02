@@ -658,7 +658,7 @@ async def get_inbox(current_user: User = Depends(get_current_active_user)):
     """Get received messages"""
     db = get_database()
     
-    cursor = db["messages"].find({"receiver_id": current_user.id}).sort("created_at", -1)
+    cursor = db["messages"].find({"receiver_id": current_user.id}).sort("created_at", -1).limit(100)
     messages = await cursor.to_list(length=100)
     
     for msg in messages:
