@@ -87,7 +87,7 @@ const Payment = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="container mx-auto max-w-3xl">
-        <h1 className="text-3xl font-bold text-center mb-8">Registration Payment</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">Paiement d'Inscription</h1>
 
         {/* Payment Status */}
         {paymentStatus && (
@@ -98,26 +98,27 @@ const Payment = () => {
                   <>
                     <CheckCircle className="h-8 w-8 text-green-500" />
                     <div>
-                      <p className="font-semibold text-green-700">Payment Completed</p>
-                      <p className="text-sm text-gray-600">You can now post vehicles</p>
+                      <p className="font-semibold text-green-700">Paiement Complété</p>
+                      <p className="text-sm text-gray-600">Vous pouvez maintenant publier des véhicules</p>
                     </div>
                   </>
                 ) : paymentStatus.status === 'manual_review' ? (
                   <>
                     <Clock className="h-8 w-8 text-orange-500" />
                     <div>
-                      <p className="font-semibold text-orange-700">Under Review</p>
-                      <p className="text-sm text-gray-600">Admin will verify your payment proof</p>
+                      <p className="font-semibold text-orange-700">En cours de révision</p>
+                      <p className="text-sm text-gray-600">L'admin vérifiera votre preuve de paiement</p>
                     </div>
                   </>
                 ) : (
                   <>
                     <AlertCircle className="h-8 w-8 text-blue-500" />
                     <div>
-                      <p className="font-semibold text-blue-700">Payment Pending</p>
-                      <p className="text-sm text-gray-600">Complete payment to post vehicles</p>
+                      <p className="font-semibold text-blue-700">Paiement en attente</p>
+                      <p className="text-sm text-gray-600">Complétez le paiement pour publier des véhicules</p>
                     </div>
                   </>
+                )}
                 )}
               </div>
             </CardContent>
