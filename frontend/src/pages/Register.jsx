@@ -130,7 +130,7 @@ const Register = () => {
               </div>
 
               <div>
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Mot de passe</Label>
                 <Input
                   id="password"
                   name="password"
@@ -138,13 +138,13 @@ const Register = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="At least 6 characters"
+                  placeholder="Au moins 6 caractères"
                   minLength={6}
                 />
               </div>
 
               <div>
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
@@ -152,19 +152,19 @@ const Register = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  placeholder="Repeat password"
+                  placeholder="Répétez le mot de passe"
                 />
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Registering...' : 'Register'}
+                {loading ? 'Inscription en cours...' : "S'inscrire"}
               </Button>
             </form>
 
             <div className="mt-4 text-center text-sm">
-              Already have an account?{' '}
+              Vous avez déjà un compte ?{' '}
               <Link to="/login" className="text-primary hover:underline font-medium">
-                Login here
+                Connectez-vous ici
               </Link>
             </div>
           </CardContent>
