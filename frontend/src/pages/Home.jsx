@@ -11,12 +11,12 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Images de fond avec vos véhicules
+  // Images de fond avec vos véhicules (plaques déjà floutées)
   const heroImages = [
-    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/kkhfvl03_IMG_4340.jpeg',
-    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/gbp66ig6_IMG_4376.jpeg',
-    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/nwspkos4_IMG_4377.jpeg',
-    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/7mmt7d0c_AED086EA-8B0B-4247-B066-829D0858934B.jpeg'
+    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/kyz5dg91_IMG_4340.jpeg',
+    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/dhk2xe5w_IMG_4376.jpeg',
+    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/p97ttie4_IMG_4377.jpeg',
+    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/w7y3zsaf_AED086EA-8B0B-4247-B066-829D0858934B.jpeg'
   ];
 
   useEffect(() => {
