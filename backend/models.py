@@ -72,8 +72,10 @@ class User(BaseModel):
     phone: str
     password_hash: str
     role: UserRole = UserRole.USER
+    account_type: AccountType = AccountType.SALE
     payment_status: PaymentStatus = PaymentStatus.PENDING
     registration_fee_paid: bool = False
+    posted_vehicles_count: int = 0
     created_at: datetime = Field(default_factory=datetime.utcnow)
     
     class Config:
@@ -85,8 +87,10 @@ class UserResponse(BaseModel):
     email: str
     phone: str
     role: str
+    account_type: str
     payment_status: str
     registration_fee_paid: bool
+    posted_vehicles_count: int
     created_at: datetime
 
 # Vehicle Models
