@@ -152,6 +152,7 @@ class Vehicle(BaseModel):
     year: int
     mileage: int
     condition: VehicleCondition
+    vehicle_type: VehicleType = VehicleType.SALE
     price: float
     registration_plate: Optional[str]
     location: str
