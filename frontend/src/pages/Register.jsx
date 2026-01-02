@@ -58,13 +58,20 @@ const Register = () => {
       <div className="container mx-auto max-w-md">
         <Card>
           <CardHeader>
-            <CardTitle className="text-center text-2xl">Register</CardTitle>
-            <p className="text-center text-gray-600 text-sm">Create your Congo Auto account</p>
+            <CardTitle className="text-center text-2xl">Inscription</CardTitle>
+            <p className="text-center text-gray-600 text-sm">Créez votre compte S.C.I.C</p>
+            <div className="bg-blue-50 p-3 rounded-lg mt-4">
+              <p className="text-sm font-semibold text-blue-900 mb-2">💰 Tarifs d'inscription :</p>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• <strong>Compte Vente</strong> : 3,000 FCFA + 1ère annonce gratuite</li>
+                <li>• <strong>Compte Location</strong> : 1,500 FCFA + 1ère annonce gratuite</li>
+              </ul>
+            </div>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="name">Nom complet</Label>
                 <Input
                   id="name"
                   name="name"
@@ -72,7 +79,7 @@ const Register = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Your name"
+                  placeholder="Votre nom"
                 />
               </div>
 
@@ -85,12 +92,12 @@ const Register = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="your@email.com"
+                  placeholder="votre@email.com"
                 />
               </div>
 
               <div>
-                <Label htmlFor="phone">Phone Number (Congo)</Label>
+                <Label htmlFor="phone">Numéro de téléphone (Congo)</Label>
                 <Input
                   id="phone"
                   name="phone"
@@ -100,7 +107,26 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="242068911111"
                 />
-                <p className="text-xs text-gray-500 mt-1">Format: 242 followed by 8-9 digits</p>
+                <p className="text-xs text-gray-500 mt-1">Format : 242 suivi de 8-9 chiffres</p>
+              </div>
+
+              <div>
+                <Label htmlFor="account_type">Type de compte</Label>
+                <Select
+                  id="account_type"
+                  name="account_type"
+                  required
+                  value={formData.account_type}
+                  onChange={handleChange}
+                >
+                  <option value="sale">Vente de véhicules (3,000 FCFA)</option>
+                  <option value="rental">Location de véhicules (1,500 FCFA)</option>
+                </Select>
+                <p className="text-xs text-gray-500 mt-1">
+                  {formData.account_type === 'sale' 
+                    ? 'Pour vendre des véhicules (prix: 800K - 1Mrd FCFA)'
+                    : 'Pour louer des véhicules (prix: 10K - 15M FCFA)'}
+                </p>
               </div>
 
               <div>
