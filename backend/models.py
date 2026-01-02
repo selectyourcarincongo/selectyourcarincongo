@@ -100,6 +100,7 @@ class VehicleCreate(BaseModel):
     year: int = Field(..., ge=1980, le=2026)
     mileage: int = Field(..., ge=0)
     condition: VehicleCondition
+    vehicle_type: VehicleType = VehicleType.SALE
     price: float
     registration_plate: Optional[str] = Field(None, max_length=20)
     location: str = Field(..., min_length=3, max_length=100)
@@ -108,9 +109,14 @@ class VehicleCreate(BaseModel):
     images: List[str] = Field(default=[], max_length=8)
     
     @field_validator('price')
-    def validate_price(cls, v):
-        if v < 800000 or v > 1000000000:
-            raise ValueError("Price must be between 800,000 and 1,000,000,000 FCFA")
+    def validate_price(cls, v, info):
+        vehicle_type = info.data.get('vehicle_type', VehicleType.SALE)
+        if vehicle_type == VehicleType.SALE:
+            if v < 800000 or v > 1000000000:
+                raise ValueError("Sale price must be between 800,000 and 1,000,000,000 FCFA")
+        else:  # RENTAL
+            if v < 10000 or v > 15000000:
+                raise ValueError("Rental price must be between 10,000 and 15,000,000 FCFA")
         return v
     
     @field_validator('description')
