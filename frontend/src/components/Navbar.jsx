@@ -21,11 +21,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <img 
-              src="https://customer-assets.emergentagent.com/job_capture-transform/artifacts/p4gyy8n1_E9BD65E7-8936-430E-B951-8B8D3BDE875F.png" 
-              alt="Congo Auto" 
-              className="h-12 w-auto"
-            />
+            <div className="flex flex-col">
+              <span className="text-2xl font-bold text-primary">S.C.I.C</span>
+              <span className="text-xs text-gray-600">Select Your Car In Congo</span>
+            </div>
           </Link>
 
           {/* Navigation Links */}
