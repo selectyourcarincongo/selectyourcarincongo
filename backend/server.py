@@ -198,7 +198,7 @@ async def create_vehicle(
     vehicle: VehicleCreate,
     current_user: User = Depends(get_current_active_user)
 ):
-    """Create a new vehicle listing (requires payment)"""
+    """Create a new vehicle listing (requires payment for registration and per post after first)"""
     db = get_database()
     
     # Check if user has paid registration fee
@@ -206,6 +206,29 @@ async def create_vehicle(
         raise HTTPException(
             status_code=403,
             detail="You must pay the registration fee before posting vehicles"
+        )
+    
+    # Check if user needs to pay for this post (after first free post)
+    if current_user.posted_vehicles_count >= 1:
+        # Check if there's a completed payment for posting
+        recent_posting_payment = await db["payments"].find_one({
+            "user_id": current_user.id,
+            "payment_purpose": "posting",
+            "status": PaymentStatus.COMPLETED,
+            "created_at": {"$gte": datetime.utcnow() - timedelta(hours=1)}  # Within last hour
+        })
+        
+        if not recent_posting_payment:
+            raise HTTPException(
+                status_code=403,
+                detail="You must pay the posting fee for additional vehicles. Please complete payment first."
+            )
+    
+    # Validate vehicle type matches user account type
+    if vehicle.vehicle_type.value != current_user.account_type.value:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Your account type is {current_user.account_type.value}. You can only post {current_user.account_type.value} vehicles."
         )
     
     # Create vehicle
@@ -218,6 +241,12 @@ async def create_vehicle(
     vehicle_dict["updated_at"] = datetime.utcnow()
     
     await db["vehicles"].insert_one(vehicle_dict)
+    
+    # Increment user's posted_vehicles_count
+    await db["users"].update_one(
+        {"_id": current_user.id},
+        {"$inc": {"posted_vehicles_count": 1}}
+    )
     
     return {"message": "Vehicle created successfully. Awaiting admin approval.", "vehicle_id": vehicle_dict["_id"]}
 
