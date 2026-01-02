@@ -61,7 +61,7 @@ const Home = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
-            Why Choose Congo Auto?
+            Pourquoi choisir S.C.I.C ?
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -69,32 +69,32 @@ const Home = () => {
               <div className="bg-primary-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Car className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Wide Selection</h3>
-              <p className="text-gray-600">Browse hundreds of quality vehicles</p>
+              <h3 className="text-xl font-semibold mb-2">Large Sélection</h3>
+              <p className="text-gray-600">Parcourez des centaines de véhicules de qualité</p>
             </div>
 
             <div className="text-center">
               <div className="bg-primary-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Verified Listings</h3>
-              <p className="text-gray-600">All vehicles are reviewed by our team</p>
+              <h3 className="text-xl font-semibold mb-2">Annonces Vérifiées</h3>
+              <p className="text-gray-600">Tous les véhicules sont vérifiés par notre équipe</p>
             </div>
 
             <div className="text-center">
               <div className="bg-primary-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <DollarSign className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Best Prices</h3>
-              <p className="text-gray-600">Competitive pricing across all categories</p>
+              <h3 className="text-xl font-semibold mb-2">Meilleurs Prix</h3>
+              <p className="text-gray-600">Prix compétitifs dans toutes les catégories</p>
             </div>
 
             <div className="text-center">
               <div className="bg-primary-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Trusted Community</h3>
-              <p className="text-gray-600">Join thousands of satisfied users</p>
+              <h3 className="text-xl font-semibold mb-2">Communauté de Confiance</h3>
+              <p className="text-gray-600">Rejoignez des milliers d'utilisateurs satisfaits</p>
             </div>
           </div>
         </div>
