@@ -9,9 +9,25 @@ const Home = () => {
   const navigate = useNavigate();
   const [featuredVehicles, setFeaturedVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Images de fond avec vos véhicules
+  const heroImages = [
+    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/kkhfvl03_IMG_4340.jpeg',
+    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/gbp66ig6_IMG_4376.jpeg',
+    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/nwspkos4_IMG_4377.jpeg',
+    'https://customer-assets.emergentagent.com/job_capture-transform/artifacts/7mmt7d0c_AED086EA-8B0B-4247-B066-829D0858934B.jpeg'
+  ];
 
   useEffect(() => {
     fetchFeaturedVehicles();
+    
+    // Carrousel automatique toutes les 5 secondes
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const fetchFeaturedVehicles = async () => {
@@ -27,33 +43,80 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="congo-gradient text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Trouvez Votre Véhicule Parfait au Congo
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 text-white/90">
-            S.C.I.C - Select Your Car In Congo : Achetez, vendez et louez des véhicules
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Button
-              size="lg"
-              variant="secondary"
-              className="text-lg px-8 bg-white text-primary hover:bg-gray-100"
-              onClick={() => navigate('/vehicles')}
-            >
-              Parcourir les Véhicules
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-lg px-8 border-white text-white hover:bg-white/10"
-              onClick={() => navigate('/register')}
-            >
-              Vendre / Louer
-            </Button>
+      {/* Hero Section avec Carrousel */}
+      <section className="relative h-[600px] overflow-hidden">
+        {/* Images de fond en carrousel */}
+        {heroImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <div 
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${image})`,
+                filter: 'brightness(0.6) blur(0.5px)'
+              }}
+            />
+            {/* Flou supplémentaire sur la zone des plaques (bas de l'image) */}
+            <div 
+              className="absolute bottom-0 left-0 right-0 h-32"
+              style={{
+                backdropFilter: 'blur(15px)',
+                WebkitBackdropFilter: 'blur(15px)'
+              }}
+            />
           </div>
+        ))}
+
+        {/* Overlay gradient pour lisibilité */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+
+        {/* Contenu du Hero */}
+        <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
+          <div className="text-white max-w-2xl">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
+              Trouvez Votre Véhicule Parfait au Congo
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-white/90 drop-shadow-md">
+              S.C.I.C - Select Your Car In Congo : Achetez, vendez et louez des véhicules
+            </p>
+            <div className="flex gap-4 flex-wrap">
+              <Button
+                size="lg"
+                className="text-lg px-8 bg-white text-primary hover:bg-gray-100 shadow-xl"
+                onClick={() => navigate('/vehicles')}
+              >
+                Parcourir les Véhicules
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-lg px-8 border-2 border-white text-white hover:bg-white/10 shadow-xl backdrop-blur-sm"
+                onClick={() => navigate('/register')}
+              >
+                Vendre / Louer
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Indicateurs de slide */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentSlide 
+                  ? 'bg-white w-8' 
+                  : 'bg-white/50 hover:bg-white/75'
+              }`}
+              aria-label={`Slide ${index + 1}`}
+            />
+          ))}
         </div>
       </section>
 
