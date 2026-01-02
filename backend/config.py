@@ -16,7 +16,10 @@ class Settings(BaseSettings):
     mtn_base_url: str = os.getenv("MTN_BASE_URL", "https://sandbox.momodeveloper.mtn.com")
     
     # Application
-    registration_fee_xaf: float = float(os.getenv("REGISTRATION_FEE_XAF", "7500"))
+    registration_fee_sale_xaf: float = float(os.getenv("REGISTRATION_FEE_SALE_XAF", "3000"))
+    registration_fee_rental_xaf: float = float(os.getenv("REGISTRATION_FEE_RENTAL_XAF", "1500"))
+    posting_fee_sale_xaf: float = float(os.getenv("POSTING_FEE_SALE_XAF", "3000"))
+    posting_fee_rental_xaf: float = float(os.getenv("POSTING_FEE_RENTAL_XAF", "1500"))
     merchant_phone: str = os.getenv("MERCHANT_PHONE", "242068913333")
     merchant_code: str = os.getenv("MERCHANT_CODE", "374575")
     secret_key: str = os.getenv("SECRET_KEY", "congo-auto-secret-key-change-in-production-2025")
