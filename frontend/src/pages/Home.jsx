@@ -57,15 +57,30 @@ const Home = () => {
               className="absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage: `url(${image})`,
-                filter: 'brightness(0.6) blur(0.5px)'
+                filter: 'brightness(0.5)'
               }}
             />
-            {/* Flou supplémentaire sur la zone des plaques (bas de l'image) */}
+            {/* Floutage INTENSIF sur la zone des plaques (bas + coins) */}
             <div 
-              className="absolute bottom-0 left-0 right-0 h-32"
+              className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
               style={{
-                backdropFilter: 'blur(15px)',
-                WebkitBackdropFilter: 'blur(15px)'
+                backdropFilter: 'blur(40px)',
+                WebkitBackdropFilter: 'blur(40px)'
+              }}
+            />
+            {/* Floutage supplémentaire coins bas */}
+            <div 
+              className="absolute bottom-0 left-0 w-64 h-32 bg-black/60"
+              style={{
+                backdropFilter: 'blur(30px)',
+                WebkitBackdropFilter: 'blur(30px)'
+              }}
+            />
+            <div 
+              className="absolute bottom-0 right-0 w-64 h-32 bg-black/60"
+              style={{
+                backdropFilter: 'blur(30px)',
+                WebkitBackdropFilter: 'blur(30px)'
               }}
             />
           </div>
