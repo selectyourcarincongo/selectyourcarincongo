@@ -61,7 +61,7 @@ const Navbar = () => {
                     className="flex items-center gap-2"
                   >
                     <Plus className="h-4 w-4" />
-                    Post Vehicle
+                    Publier
                   </Button>
                 )}
                 <Button
@@ -80,7 +80,7 @@ const Navbar = () => {
                   className="flex items-center gap-2"
                 >
                   <LogOut className="h-4 w-4" />
-                  Logout
+                  Déconnexion
                 </Button>
               </>
             ) : (
@@ -90,13 +90,13 @@ const Navbar = () => {
                   size="sm"
                   onClick={() => navigate('/login')}
                 >
-                  Login
+                  Connexion
                 </Button>
                 <Button
                   size="sm"
                   onClick={() => navigate('/register')}
                 >
-                  Register
+                  Inscription
                 </Button>
               </>
             )}
