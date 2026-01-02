@@ -61,6 +61,7 @@ async def register(user: UserCreate):
     user_dict["role"] = UserRole.USER
     user_dict["payment_status"] = PaymentStatus.PENDING
     user_dict["registration_fee_paid"] = False
+    user_dict["posted_vehicles_count"] = 0
     user_dict["created_at"] = datetime.utcnow()
     
     result = await db["users"].insert_one(user_dict)
@@ -76,8 +77,10 @@ async def register(user: UserCreate):
         email=created_user.email,
         phone=created_user.phone,
         role=created_user.role.value,
+        account_type=created_user.account_type.value,
         payment_status=created_user.payment_status.value,
         registration_fee_paid=created_user.registration_fee_paid,
+        posted_vehicles_count=created_user.posted_vehicles_count,
         created_at=created_user.created_at
     )
     
