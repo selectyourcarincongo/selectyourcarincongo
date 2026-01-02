@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { Label } from '@/ui/label';
+import { Select } from '@/ui/select';
 import api from '@/lib/api';
 import { setToken, setUser } from '@/utils/auth';
 import { toast } from 'react-toastify';
@@ -16,7 +17,8 @@ const Register = () => {
     email: '',
     phone: '242',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    account_type: 'sale'
   });
 
   const handleChange = (e) => {
