@@ -123,8 +123,10 @@ async def get_me(current_user: User = Depends(get_current_active_user)):
         email=current_user.email,
         phone=current_user.phone,
         role=current_user.role.value,
+        account_type=current_user.account_type.value,
         payment_status=current_user.payment_status.value,
         registration_fee_paid=current_user.registration_fee_paid,
+        posted_vehicles_count=current_user.posted_vehicles_count,
         created_at=current_user.created_at
     )
 
