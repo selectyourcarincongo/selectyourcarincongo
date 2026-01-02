@@ -31,10 +31,10 @@ const Home = () => {
       <section className="congo-gradient text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Find Your Perfect Vehicle in Congo
+            Trouvez Votre Véhicule Parfait au Congo
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-white/90">
-            The leading vehicle marketplace in Republic of Congo
+            S.C.I.C - Select Your Car In Congo : Achetez, vendez et louez des véhicules
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Button
@@ -43,7 +43,7 @@ const Home = () => {
               className="text-lg px-8 bg-white text-primary hover:bg-gray-100"
               onClick={() => navigate('/vehicles')}
             >
-              Browse Vehicles
+              Parcourir les Véhicules
             </Button>
             <Button
               size="lg"
@@ -51,7 +51,7 @@ const Home = () => {
               className="text-lg px-8 border-white text-white hover:bg-white/10"
               onClick={() => navigate('/register')}
             >
-              Sell Your Vehicle
+              Vendre / Louer
             </Button>
           </div>
         </div>
