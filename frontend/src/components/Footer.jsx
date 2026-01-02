@@ -31,11 +31,6 @@ const Footer = () => {
               <li><Link to="/privacy" className="text-gray-400 hover:text-white transition">Politique de confidentialité</Link></li>
             </ul>
           </div>
-            <h3 className="text-lg font-semibold mb-4">Contact</h3>
-            <p className="text-gray-400">Brazzaville, République du Congo</p>
-            <p className="text-gray-400 mt-2">Paiement : +242 068 913 333</p>
-            <p className="text-gray-400">Code Merchant : 374575</p>
-          </div>
         </div>
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
