@@ -18,6 +18,9 @@ import Payment from '@/pages/Payment';
 import Dashboard from '@/pages/Dashboard';
 import PostVehicle from '@/pages/PostVehicle';
 import AdminDashboard from '@/pages/AdminDashboard';
+import Contact from '@/pages/Contact';
+import TermsOfService from '@/pages/TermsOfService';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
 
 function App() {
   return (
