@@ -19,6 +19,14 @@ class VehicleCondition(str, Enum):
     FAIR = "fair"
     POOR = "poor"
 
+class VehicleType(str, Enum):
+    SALE = "sale"
+    RENTAL = "rental"
+
+class AccountType(str, Enum):
+    SALE = "sale"
+    RENTAL = "rental"
+
 class PaymentStatus(str, Enum):
     PENDING = "pending"
     COMPLETED = "completed"
