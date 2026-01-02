@@ -184,12 +184,14 @@ class VehicleUpdate(BaseModel):
 class PaymentInitiate(BaseModel):
     user_id: str
     phone_number: str
+    payment_purpose: str = "registration"  # "registration" or "posting"
 
 class Payment(BaseModel):
     id: str = Field(alias="_id")
     user_id: str
     amount: float
     currency: str = "XAF"
+    payment_purpose: str = "registration"
     external_id: str
     x_reference_id: Optional[str] = None
     mtn_transaction_id: Optional[str] = None
