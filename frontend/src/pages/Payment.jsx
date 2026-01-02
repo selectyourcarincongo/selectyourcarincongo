@@ -165,7 +165,7 @@ const Payment = () => {
                 disabled={loading || paymentStatus?.status === 'completed'}
                 className="w-full"
               >
-                {loading ? 'Processing...' : 'Initiate Payment'}
+                {loading ? 'Traitement...' : 'Initier le paiement'}
               </Button>
             )}
           </CardContent>
@@ -176,17 +176,17 @@ const Payment = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Upload className="h-5 w-5" />
-              Upload Payment Proof (Optional)
+              Télécharger une Preuve de Paiement (Optionnel)
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-gray-600">
-              If you've already completed the payment, you can upload a screenshot as proof.
-              This will be verified by our admin team.
+              Si vous avez déjà effectué le paiement, vous pouvez télécharger une capture d'écran comme preuve.
+              Elle sera vérifiée par notre équipe d'administration.
             </p>
 
             <div>
-              <Label htmlFor="proofUrl">Proof URL (Screenshot link)</Label>
+              <Label htmlFor="proofUrl">URL de la preuve (lien de capture d'écran)</Label>
               <Input
                 id="proofUrl"
                 type="url"
@@ -196,7 +196,7 @@ const Payment = () => {
                 disabled={paymentStatus?.status === 'completed'}
               />
               <p className="text-xs text-gray-500 mt-1">
-                Upload your screenshot to imgur.com or similar service and paste the link here
+                Téléchargez votre capture d'écran sur imgur.com ou un service similaire et collez le lien ici
               </p>
             </div>
 
@@ -205,14 +205,14 @@ const Payment = () => {
               disabled={loading || paymentStatus?.status === 'completed' || !proofUrl}
               className="w-full"
             >
-              {loading ? 'Uploading...' : 'Submit Payment Proof'}
+              {loading ? 'Téléchargement...' : 'Soumettre la preuve de paiement'}
             </Button>
           </CardContent>
         </Card>
 
         <div className="mt-6 text-center">
           <Button variant="outline" onClick={() => navigate('/dashboard')}>
-            Go to Dashboard
+            Aller au tableau de bord
           </Button>
         </div>
       </div>
