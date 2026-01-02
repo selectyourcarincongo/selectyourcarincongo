@@ -671,7 +671,7 @@ async def get_sent_messages(current_user: User = Depends(get_current_active_user
     """Get sent messages"""
     db = get_database()
     
-    cursor = db["messages"].find({"sender_id": current_user.id}).sort("created_at", -1)
+    cursor = db["messages"].find({"sender_id": current_user.id}).sort("created_at", -1).limit(100)
     messages = await cursor.to_list(length=100)
     
     for msg in messages:
