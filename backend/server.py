@@ -383,14 +383,23 @@ async def upload_payment_proof(
         "status": PaymentStatus.PENDING
     })
     
+    payment_purpose = payment.get("payment_purpose", "registration") if payment else "registration"
+    
     if not payment:
         # Create new payment record for manual proof
+        # Determine amount based on account type
+        if payment_purpose == "registration":
+            amount = settings.registration_fee_sale_xaf if current_user.account_type == AccountType.SALE else settings.registration_fee_rental_xaf
+        else:
+            amount = settings.posting_fee_sale_xaf if current_user.account_type == AccountType.SALE else settings.posting_fee_rental_xaf
+            
         payment_dict = {
             "_id": str(uuid.uuid4()),
             "user_id": current_user.id,
-            "amount": settings.registration_fee_xaf,
+            "amount": amount,
             "currency": "XAF",
-            "external_id": f"manual_{current_user.id}_{int(datetime.utcnow().timestamp())}",
+            "payment_purpose": payment_purpose,
+            "external_id": f"manual_{payment_purpose}_{current_user.id}_{int(datetime.utcnow().timestamp())}",
             "payment_method": PaymentMethod.MANUAL_PROOF,
             "status": PaymentStatus.MANUAL_REVIEW,
             "manual_proof_url": proof_data.proof_url,
