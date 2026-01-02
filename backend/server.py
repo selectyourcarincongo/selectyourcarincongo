@@ -560,14 +560,15 @@ async def admin_approve_payment(
         {"$set": {"status": PaymentStatus.COMPLETED, "updated_at": datetime.utcnow()}}
     )
     
-    # Update user payment status
-    await db["users"].update_one(
-        {"_id": payment["user_id"]},
-        {"$set": {
-            "payment_status": PaymentStatus.COMPLETED,
-            "registration_fee_paid": True
-        }}
-    )
+    # Update user status based on payment purpose
+    if payment.get("payment_purpose") == "registration":
+        await db["users"].update_one(
+            {"_id": payment["user_id"]},
+            {"$set": {
+                "payment_status": PaymentStatus.COMPLETED,
+                "registration_fee_paid": True
+            }}
+        )
     
     return {"message": "Payment approved"}
 
