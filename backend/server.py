@@ -255,7 +255,7 @@ async def get_my_vehicles(current_user: User = Depends(get_current_active_user))
     """Get current user's vehicles"""
     db = get_database()
     
-    cursor = db["vehicles"].find({"user_id": current_user.id}).sort("created_at", -1)
+    cursor = db["vehicles"].find({"user_id": current_user.id}).sort("created_at", -1).limit(100)
     vehicles = await cursor.to_list(length=100)
     
     for vehicle in vehicles:
