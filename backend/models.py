@@ -43,6 +43,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=6)
     phone: str
+    account_type: AccountType = AccountType.SALE
     
     @field_validator('phone')
     def validate_phone(cls, v):
