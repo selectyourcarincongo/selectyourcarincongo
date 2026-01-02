@@ -57,36 +57,13 @@ const Home = () => {
               className="absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage: `url(${image})`,
-                filter: 'brightness(0.5)'
-              }}
-            />
-            {/* Floutage INTENSIF sur la zone des plaques (bas + coins) */}
-            <div 
-              className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
-              style={{
-                backdropFilter: 'blur(40px)',
-                WebkitBackdropFilter: 'blur(40px)'
-              }}
-            />
-            {/* Floutage supplémentaire coins bas */}
-            <div 
-              className="absolute bottom-0 left-0 w-64 h-32 bg-black/60"
-              style={{
-                backdropFilter: 'blur(30px)',
-                WebkitBackdropFilter: 'blur(30px)'
-              }}
-            />
-            <div 
-              className="absolute bottom-0 right-0 w-64 h-32 bg-black/60"
-              style={{
-                backdropFilter: 'blur(30px)',
-                WebkitBackdropFilter: 'blur(30px)'
+                filter: 'brightness(0.6)'
               }}
             />
           </div>
         ))}
 
-        {/* Overlay gradient pour lisibilité */}
+        {/* Overlay gradient pour lisibilité du texte */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
 
         {/* Contenu du Hero */}
