@@ -105,8 +105,10 @@ async def login(user_login: UserLogin):
         email=user_obj.email,
         phone=user_obj.phone,
         role=user_obj.role.value,
+        account_type=user_obj.account_type.value,
         payment_status=user_obj.payment_status.value,
         registration_fee_paid=user_obj.registration_fee_paid,
+        posted_vehicles_count=user_obj.posted_vehicles_count,
         created_at=user_obj.created_at
     )
     
