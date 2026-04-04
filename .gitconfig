@@ -1,3 +1,2 @@
-[user]
-	email = github@emergent.sh
-	name = emergent-agent-e1
+git config --global user.name "selectyourcarincongo"
+git config --global user.email "ljacquesalbert@gmail.com"
