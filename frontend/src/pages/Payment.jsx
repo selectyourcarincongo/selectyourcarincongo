@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
 import { Button } from '@/ui/button';
@@ -17,19 +17,11 @@ const Payment = () => {
   const [proofUrl, setProofUrl] = useState('');
   const [paymentInfo, setPaymentInfo] = useState(null);
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    checkPaymentStatus();
-  }, []);
-
-  const checkPaymentStatus = async () => {
+  const checkPaymentStatus = useCallback(async () => {
     try {
       const response = await api.get('/payment/status');
       setPaymentStatus(response.data);
-      
+
       if (response.data.status === 'completed') {
         toast.info('Payment already completed!');
         setTimeout(() => navigate('/dashboard'), 2000);
@@ -37,7 +29,15 @@ const Payment = () => {
     } catch (error) {
       console.error('Error checking payment status:', error);
     }
-  };
+  }, [navigate]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    checkPaymentStatus();
+  }, [user, navigate, checkPaymentStatus]);
 
   const initiatePayment = async () => {
     setLoading(true);
@@ -89,7 +89,6 @@ const Payment = () => {
       <div className="container mx-auto max-w-3xl">
         <h1 className="text-3xl font-bold text-center mb-8">Paiement d'Inscription</h1>
 
-        {/* Payment Status */}
         {paymentStatus && (
           <Card className="mb-6">
             <CardContent className="pt-6">
@@ -119,20 +118,18 @@ const Payment = () => {
                     </div>
                   </>
                 )}
-                )}
               </div>
             </CardContent>
           </Card>
         )}
 
-        {/* Payment Instructions */}
         <Card className="mb-6">
           <CardHeader>
             <CardTitle>
               Frais d'inscription : {user?.account_type === 'sale' ? '3,000 FCFA' : '1,500 FCFA'}
             </CardTitle>
             <p className="text-sm text-gray-600 mt-2">
-              {user?.account_type === 'sale' 
+              {user?.account_type === 'sale'
                 ? 'Compte Vente - 1ère annonce gratuite, puis 3,000 FCFA/annonce'
                 : 'Compte Location - 1ère annonce gratuite, puis 1,500 FCFA/annonce'}
             </p>
@@ -171,7 +168,6 @@ const Payment = () => {
           </CardContent>
         </Card>
 
-        {/* Manual Proof Upload */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

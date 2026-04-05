@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Input } from '@/ui/input';
 import { Select } from '@/ui/select';
 import { Button } from '@/ui/button';
@@ -21,40 +21,44 @@ const Vehicles = () => {
   const [total, setTotal] = useState(0);
   const limit = 12;
 
+  const fetchVehicles = useCallback(
+    async (customFilters = filters, currentPage = page) => {
+      setLoading(true);
+      try {
+        const params = new URLSearchParams();
+        params.append('skip', currentPage * limit);
+        params.append('limit', limit);
+
+        Object.keys(customFilters).forEach((key) => {
+          if (customFilters[key]) {
+            params.append(key, customFilters[key]);
+          }
+        });
+
+        const response = await api.get(`/vehicles/public?${params.toString()}`);
+        setVehicles(response.data.vehicles || []);
+        setTotal(response.data.total || 0);
+      } catch (error) {
+        console.error('Error fetching vehicles:', error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [filters, page]
+  );
+
   useEffect(() => {
-    fetchVehicles();
-  }, [page]);
-
-  const fetchVehicles = async (customFilters = filters) => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      params.append('skip', page * limit);
-      params.append('limit', limit);
-      
-      Object.keys(customFilters).forEach(key => {
-        if (customFilters[key]) {
-          params.append(key, customFilters[key]);
-        }
-      });
-
-      const response = await api.get(`/vehicles/public?${params.toString()}`);
-      setVehicles(response.data.vehicles || []);
-      setTotal(response.data.total || 0);
-    } catch (error) {
-      console.error('Error fetching vehicles:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchVehicles(filters, page);
+  }, [fetchVehicles, filters, page]);
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
+    setPage(0);
   };
 
   const handleSearch = () => {
     setPage(0);
-    fetchVehicles();
+    fetchVehicles(filters, 0);
   };
 
   const handleReset = () => {
@@ -67,7 +71,7 @@ const Vehicles = () => {
     };
     setFilters(resetFilters);
     setPage(0);
-    fetchVehicles(resetFilters);
+    fetchVehicles(resetFilters, 0);
   };
 
   const totalPages = Math.ceil(total / limit);
@@ -77,13 +81,12 @@ const Vehicles = () => {
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">Browse Vehicles</h1>
 
-        {/* Filters */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <div className="flex items-center gap-2 mb-4">
             <Filter className="h-5 w-5 text-primary" />
             <h2 className="text-xl font-semibold">Filters</h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div>
               <Label htmlFor="brand">Brand</Label>
@@ -159,7 +162,6 @@ const Vehicles = () => {
           </div>
         </div>
 
-        {/* Results */}
         <div className="mb-4">
           <p className="text-gray-600">
             Showing {vehicles.length} of {total} vehicles
@@ -178,7 +180,6 @@ const Vehicles = () => {
               ))}
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex justify-center gap-2">
                 <Button

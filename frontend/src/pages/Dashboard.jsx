@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
 import { Button } from '@/ui/button';
-import { Car, DollarSign, AlertCircle, CheckCircle } from 'lucide-react';
+import { Car, AlertCircle, CheckCircle } from 'lucide-react';
 import { getUser, isAuthenticated } from '@/utils/auth';
 import VehicleCard from '@/components/VehicleCard';
 import api from '@/lib/api';
-import { toast } from 'react-toastify';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -15,16 +14,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [paymentStatus, setPaymentStatus] = useState(null);
 
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate('/login');
-      return;
-    }
-    fetchUserVehicles();
-    checkPaymentStatus();
-  }, []);
-
-  const fetchUserVehicles = async () => {
+  const fetchUserVehicles = useCallback(async () => {
     try {
       const response = await api.get('/vehicles/user/me');
       setVehicles(response.data || []);
@@ -33,16 +23,25 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const checkPaymentStatus = async () => {
+  const checkPaymentStatus = useCallback(async () => {
     try {
       const response = await api.get('/payment/status');
       setPaymentStatus(response.data);
     } catch (error) {
       console.error('Error checking payment status:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate('/login');
+      return;
+    }
+    fetchUserVehicles();
+    checkPaymentStatus();
+  }, [navigate, fetchUserVehicles, checkPaymentStatus]);
 
   if (!user) {
     return null;
@@ -53,7 +52,6 @@ const Dashboard = () => {
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold mb-6">Welcome, {user.name}!</h1>
 
-        {/* Payment Status Card */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardHeader>
@@ -73,10 +71,7 @@ const Dashboard = () => {
                     <AlertCircle className="h-5 w-5" />
                     <span className="font-semibold">Pending</span>
                   </div>
-                  <Button
-                    size="sm"
-                    onClick={() => navigate('/payment')}
-                  >
+                  <Button size="sm" onClick={() => navigate('/payment')}>
                     Complete Payment
                   </Button>
                 </div>
@@ -110,7 +105,6 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Quick Actions */}
         {user.registration_fee_paid && (
           <div className="mb-8">
             <Button
@@ -124,10 +118,9 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* My Vehicles Section */}
         <div>
           <h2 className="text-2xl font-bold mb-4">My Vehicles</h2>
-          
+
           {loading ? (
             <p className="text-gray-600">Loading...</p>
           ) : vehicles.length > 0 ? (
@@ -136,15 +129,15 @@ const Dashboard = () => {
                 <div key={vehicle._id} className="relative">
                   <VehicleCard vehicle={{ ...vehicle, id: vehicle._id }} />
                   <div className="absolute top-2 right-2 z-10">
-                    <span className={
-                      `px-3 py-1 rounded-full text-xs font-semibold ${
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         vehicle.status === 'approved'
                           ? 'bg-green-100 text-green-800'
                           : vehicle.status === 'rejected'
                           ? 'bg-red-100 text-red-800'
                           : 'bg-yellow-100 text-yellow-800'
-                      }`
-                    }>
+                      }`}
+                    >
                       {vehicle.status}
                     </span>
                   </div>
@@ -158,7 +151,7 @@ const Dashboard = () => {
                 <p className="text-gray-600 mb-4">
                   {user.registration_fee_paid
                     ? "You haven't posted any vehicles yet"
-                    : "Complete payment to start posting vehicles"}
+                    : 'Complete payment to start posting vehicles'}
                 </p>
                 {user.registration_fee_paid ? (
                   <Button onClick={() => navigate('/post-vehicle')}>

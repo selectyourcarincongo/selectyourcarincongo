@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/ui/card';
 import { Button } from '@/ui/button';
@@ -15,11 +15,7 @@ const VehicleDetails = () => {
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  useEffect(() => {
-    fetchVehicleDetails();
-  }, [id]);
-
-  const fetchVehicleDetails = async () => {
+  const fetchVehicleDetails = useCallback(async () => {
     try {
       const response = await api.get(`/vehicles/${id}`);
       setVehicle(response.data);
@@ -29,7 +25,11 @@ const VehicleDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, navigate]);
+
+  useEffect(() => {
+    fetchVehicleDetails();
+  }, [fetchVehicleDetails]);
 
   const handleContactSeller = () => {
     if (!isAuthenticated()) {
@@ -37,7 +37,7 @@ const VehicleDetails = () => {
       navigate('/login');
       return;
     }
-    // Open phone dialer
+
     window.location.href = `tel:${vehicle.phone}`;
   };
 
@@ -61,7 +61,6 @@ const VehicleDetails = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4 max-w-6xl">
-        {/* Back Button */}
         <Button
           variant="ghost"
           onClick={() => navigate(-1)}
@@ -72,17 +71,14 @@ const VehicleDetails = () => {
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Images */}
           <div className="lg:col-span-2 space-y-4">
-            {/* Main Image */}
             <div className="relative bg-white rounded-lg overflow-hidden shadow-lg">
               <img
                 src={images[currentImageIndex]}
                 alt={`${vehicle.brand} ${vehicle.model}`}
                 className="w-full h-96 object-cover"
               />
-              
-              {/* Image Counter */}
+
               {images.length > 1 && (
                 <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
                   {currentImageIndex + 1} / {images.length}
@@ -90,7 +86,6 @@ const VehicleDetails = () => {
               )}
             </div>
 
-            {/* Thumbnail Images */}
             {images.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
                 {images.map((img, index) => (
@@ -113,7 +108,6 @@ const VehicleDetails = () => {
               </div>
             )}
 
-            {/* Description Card */}
             <Card>
               <CardContent className="p-6">
                 <h2 className="text-2xl font-bold mb-4">Description</h2>
@@ -121,7 +115,6 @@ const VehicleDetails = () => {
               </CardContent>
             </Card>
 
-            {/* Details Card */}
             <Card>
               <CardContent className="p-6">
                 <h2 className="text-2xl font-bold mb-4">Vehicle Details</h2>
@@ -180,9 +173,7 @@ const VehicleDetails = () => {
             </Card>
           </div>
 
-          {/* Right Column - Seller Info */}
           <div className="space-y-4">
-            {/* Price Card */}
             <Card className="sticky top-4">
               <CardContent className="p-6">
                 <div className="mb-6">
@@ -220,7 +211,10 @@ const VehicleDetails = () => {
                   size="lg"
                   onClick={() => {
                     const message = `Hi, I'm interested in your ${vehicle.brand} ${vehicle.model} (${formatPrice(vehicle.price)})`;
-                    window.open(`https://wa.me/${vehicle.phone}?text=${encodeURIComponent(message)}`, '_blank');
+                    window.open(
+                      `https://wa.me/${vehicle.phone}?text=${encodeURIComponent(message)}`,
+                      '_blank'
+                    );
                   }}
                 >
                   WhatsApp Seller
@@ -228,7 +222,6 @@ const VehicleDetails = () => {
               </CardContent>
             </Card>
 
-            {/* Safety Tips */}
             <Card>
               <CardContent className="p-6">
                 <h3 className="font-semibold mb-3">Safety Tips</h3>

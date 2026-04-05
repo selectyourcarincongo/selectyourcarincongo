@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
 import { Button } from '@/ui/button';
-import { Users, Car, DollarSign, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Users, Car, DollarSign, CheckCircle, XCircle } from 'lucide-react';
 import api from '@/lib/api';
 import { isAdmin } from '@/utils/auth';
 import { formatPrice, formatDate } from '@/lib/utils';
@@ -17,22 +17,7 @@ const AdminDashboard = () => {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!isAdmin()) {
-      toast.error('Admin access required');
-      navigate('/');
-      return;
-    }
-    fetchStats();
-  }, []);
-
-  useEffect(() => {
-    if (activeTab === 'vehicles') fetchVehicles();
-    else if (activeTab === 'users') fetchUsers();
-    else if (activeTab === 'payments') fetchPayments();
-  }, [activeTab]);
-
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       const response = await api.get('/admin/stats');
       setStats(response.data);
@@ -41,34 +26,49 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchVehicles = async () => {
+  const fetchVehicles = useCallback(async () => {
     try {
       const response = await api.get('/admin/vehicles?limit=50');
       setVehicles(response.data.vehicles || []);
     } catch (error) {
       toast.error('Failed to fetch vehicles');
     }
-  };
+  }, []);
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       const response = await api.get('/admin/users?limit=50');
       setUsers(response.data.users || []);
     } catch (error) {
       toast.error('Failed to fetch users');
     }
-  };
+  }, []);
 
-  const fetchPayments = async () => {
+  const fetchPayments = useCallback(async () => {
     try {
       const response = await api.get('/admin/payments?limit=50');
       setPayments(response.data.payments || []);
     } catch (error) {
       toast.error('Failed to fetch payments');
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!isAdmin()) {
+      toast.error('Admin access required');
+      navigate('/');
+      return;
+    }
+    fetchStats();
+  }, [navigate, fetchStats]);
+
+  useEffect(() => {
+    if (activeTab === 'vehicles') fetchVehicles();
+    else if (activeTab === 'users') fetchUsers();
+    else if (activeTab === 'payments') fetchPayments();
+  }, [activeTab, fetchVehicles, fetchUsers, fetchPayments]);
 
   const approveVehicle = async (vehicleId) => {
     try {
@@ -129,7 +129,6 @@ const AdminDashboard = () => {
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
-        {/* Tabs */}
         <div className="flex gap-2 mb-6 border-b overflow-x-auto">
           {['stats', 'vehicles', 'users', 'payments'].map((tab) => (
             <button
@@ -146,7 +145,6 @@ const AdminDashboard = () => {
           ))}
         </div>
 
-        {/* Stats Tab */}
         {activeTab === 'stats' && stats && (
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -197,18 +195,15 @@ const AdminDashboard = () => {
                   <CardTitle className="text-sm font-medium text-gray-600">Total Revenue</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div>
-                    <span className="text-2xl font-bold text-green-600">
-                      {formatPrice(stats.revenue?.total || 0)}
-                    </span>
-                  </div>
+                  <span className="text-2xl font-bold text-green-600">
+                    {formatPrice(stats.revenue?.total || 0)}
+                  </span>
                 </CardContent>
               </Card>
             </div>
           </div>
         )}
 
-        {/* Vehicles Tab */}
         {activeTab === 'vehicles' && (
           <div className="space-y-4">
             {vehicles.length === 0 ? (
@@ -227,7 +222,7 @@ const AdminDashboard = () => {
                         alt={vehicle.brand}
                         className="w-full md:w-48 h-32 object-cover rounded"
                       />
-                      
+
                       <div className="flex-1">
                         <div className="flex justify-between items-start mb-2">
                           <div>
@@ -250,18 +245,18 @@ const AdminDashboard = () => {
                             {vehicle.status}
                           </span>
                         </div>
-                        
+
                         <p className="text-sm text-gray-600 mb-3 line-clamp-2">
                           {vehicle.description}
                         </p>
-                        
+
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-3">
                           <span>Year: {vehicle.year}</span>
                           <span>Mileage: {vehicle.mileage?.toLocaleString()} km</span>
                           <span>Location: {vehicle.location}</span>
                           <span>Posted: {formatDate(vehicle.created_at)}</span>
                         </div>
-                        
+
                         {vehicle.status === 'pending' && (
                           <div className="flex gap-2">
                             <Button
@@ -299,7 +294,6 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* Users Tab */}
         {activeTab === 'users' && (
           <Card>
             <CardContent className="p-6">
@@ -339,7 +333,6 @@ const AdminDashboard = () => {
           </Card>
         )}
 
-        {/* Payments Tab */}
         {activeTab === 'payments' && (
           <div className="space-y-4">
             {payments.length === 0 ? (
@@ -354,15 +347,9 @@ const AdminDashboard = () => {
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <p className="text-lg font-semibold">
-                          {formatPrice(payment.amount)}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          Payment ID: {payment.external_id}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          Date: {formatDate(payment.created_at)}
-                        </p>
+                        <p className="text-lg font-semibold">{formatPrice(payment.amount)}</p>
+                        <p className="text-sm text-gray-600">Payment ID: {payment.external_id}</p>
+                        <p className="text-sm text-gray-600">Date: {formatDate(payment.created_at)}</p>
                       </div>
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -378,7 +365,7 @@ const AdminDashboard = () => {
                         {payment.status}
                       </span>
                     </div>
-                    
+
                     <div className="space-y-2 mb-4">
                       <p className="text-sm">
                         <strong>Method:</strong> {payment.payment_method}
@@ -397,7 +384,7 @@ const AdminDashboard = () => {
                         </p>
                       )}
                     </div>
-                    
+
                     {payment.status === 'manual_review' && (
                       <div className="flex gap-2">
                         <Button
