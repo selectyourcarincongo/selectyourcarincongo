@@ -21,6 +21,31 @@ const Vehicles = () => {
   const [total, setTotal] = useState(0);
   const limit = 12;
 
+  useEffect(() => {
+    document.title = 'Véhicules à vendre et à louer au Congo | S.C.I.C.';
+
+    const description = 'Découvrez des voitures et véhicules à vendre ou à louer au Congo-Brazzaville sur Select Your Car In Congo (S.C.I.C.). Recherchez par marque, prix, état et localisation.';
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'description';
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', description);
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://selectyourcarincongo.com/vehicles');
+
+    return () => {
+      document.title = 'Select Your Car In Congo | S.C.I.C.';
+    };
+  }, []);
+
   const fetchVehicles = useCallback(
     async (customFilters = filters, currentPage = page) => {
       setLoading(true);
@@ -79,55 +104,62 @@ const Vehicles = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Browse Vehicles</h1>
+        <header className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">
+            Véhicules à vendre et à louer au Congo
+          </h1>
+          <p className="text-lg text-gray-600 max-w-3xl">
+            Trouvez votre prochaine voiture au Congo-Brazzaville avec S.C.I.C. - Select Your Car In Congo. Parcourez les annonces de véhicules disponibles et recherchez par marque, prix, état et localisation.
+          </p>
+        </header>
 
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <div className="flex items-center gap-2 mb-4">
             <Filter className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-semibold">Filters</h2>
+            <h2 className="text-xl font-semibold">Rechercher un véhicule</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div>
-              <Label htmlFor="brand">Brand</Label>
+              <Label htmlFor="brand">Marque</Label>
               <Input
                 id="brand"
                 name="brand"
-                placeholder="e.g. Toyota"
+                placeholder="Ex. Toyota"
                 value={filters.brand}
                 onChange={handleFilterChange}
               />
             </div>
 
             <div>
-              <Label htmlFor="location">Location</Label>
+              <Label htmlFor="location">Localisation</Label>
               <Input
                 id="location"
                 name="location"
-                placeholder="e.g. Brazzaville"
+                placeholder="Ex. Brazzaville"
                 value={filters.location}
                 onChange={handleFilterChange}
               />
             </div>
 
             <div>
-              <Label htmlFor="condition">Condition</Label>
+              <Label htmlFor="condition">État du véhicule</Label>
               <Select
                 id="condition"
                 name="condition"
                 value={filters.condition}
                 onChange={handleFilterChange}
               >
-                <option value="">All</option>
+                <option value="">Tous</option>
                 <option value="excellent">Excellent</option>
-                <option value="good">Good</option>
-                <option value="fair">Fair</option>
-                <option value="poor">Poor</option>
+                <option value="good">Bon</option>
+                <option value="fair">Moyen</option>
+                <option value="poor">À rénover</option>
               </Select>
             </div>
 
             <div>
-              <Label htmlFor="min_price">Min Price (FCFA)</Label>
+              <Label htmlFor="min_price">Prix minimum (FCFA)</Label>
               <Input
                 id="min_price"
                 name="min_price"
@@ -139,7 +171,7 @@ const Vehicles = () => {
             </div>
 
             <div>
-              <Label htmlFor="max_price">Max Price (FCFA)</Label>
+              <Label htmlFor="max_price">Prix maximum (FCFA)</Label>
               <Input
                 id="max_price"
                 name="max_price"
@@ -154,23 +186,23 @@ const Vehicles = () => {
           <div className="flex gap-3 mt-4">
             <Button onClick={handleSearch} className="flex items-center gap-2">
               <Search className="h-4 w-4" />
-              Search
+              Rechercher
             </Button>
             <Button variant="outline" onClick={handleReset}>
-              Reset Filters
+              Réinitialiser
             </Button>
           </div>
         </div>
 
         <div className="mb-4">
           <p className="text-gray-600">
-            Showing {vehicles.length} of {total} vehicles
+            {vehicles.length} véhicule{vehicles.length !== 1 ? 's' : ''} affiché{vehicles.length !== 1 ? 's' : ''} sur {total}
           </p>
         </div>
 
         {loading ? (
           <div className="text-center py-12">
-            <p className="text-gray-600">Loading vehicles...</p>
+            <p className="text-gray-600">Chargement des véhicules...</p>
           </div>
         ) : vehicles.length > 0 ? (
           <>
@@ -187,26 +219,26 @@ const Vehicles = () => {
                   onClick={() => setPage(Math.max(0, page - 1))}
                   disabled={page === 0}
                 >
-                  Previous
+                  Précédent
                 </Button>
                 <span className="py-2 px-4">
-                  Page {page + 1} of {totalPages}
+                  Page {page + 1} sur {totalPages}
                 </span>
                 <Button
                   variant="outline"
                   onClick={() => setPage(Math.min(totalPages - 1, page + 1))}
                   disabled={page >= totalPages - 1}
                 >
-                  Next
+                  Suivant
                 </Button>
               </div>
             )}
           </>
         ) : (
           <div className="text-center py-12 bg-white rounded-lg">
-            <p className="text-gray-600 text-lg">No vehicles found matching your criteria</p>
+            <p className="text-gray-600 text-lg">Aucun véhicule ne correspond à vos critères.</p>
             <Button variant="outline" onClick={handleReset} className="mt-4">
-              Reset Filters
+              Réinitialiser les filtres
             </Button>
           </div>
         )}
