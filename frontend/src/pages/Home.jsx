@@ -64,10 +64,10 @@ const Home = () => {
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
           <div className="text-white max-w-2xl">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-              Trouvez Votre Véhicule Parfait au Congo
+              Select Your Car In Congo
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 drop-shadow-md">
-              S.C.I.C - Select Your Car In Congo : Achetez, vendez et louez des véhicules
+              <strong>S.C.I.C.</strong> — La plateforme automobile au Congo-Brazzaville pour acheter, vendre et louer des véhicules.
             </p>
             <div className="flex gap-4 flex-wrap">
               <Button
@@ -102,6 +102,25 @@ const Home = () => {
               aria-label={`Slide ${index + 1}`}
             />
           ))}
+        </div>
+      </section>
+
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+          <h2 className="text-3xl font-bold mb-4 text-gray-900">
+            Select Your Car In Congo (S.C.I.C.)
+          </h2>
+          <p className="text-lg leading-8 text-gray-600">
+            <strong>Select Your Car In Congo</strong>, aussi appelée <strong>S.C.I.C.</strong>, est une plateforme automobile dédiée au Congo-Brazzaville. Retrouvez des véhicules à vendre et à louer et recherchez selon la marque, le modèle, le prix, l'état et la localisation.
+          </p>
+          <div className="mt-6 flex justify-center gap-4 flex-wrap">
+            <Button variant="outline" onClick={() => navigate('/vehicles')}>
+              Voir les véhicules
+            </Button>
+            <Button variant="outline" onClick={() => navigate('/contact')}>
+              Nous contacter
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -150,15 +169,15 @@ const Home = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Featured Vehicles</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Véhicules à la une</h2>
             <Button variant="outline" onClick={() => navigate('/vehicles')}>
-              View All
+              Voir tous les véhicules
             </Button>
           </div>
 
           {loading ? (
             <div className="text-center py-12">
-              <p className="text-gray-600">Loading vehicles...</p>
+              <p className="text-gray-600">Chargement des véhicules...</p>
             </div>
           ) : featuredVehicles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -168,7 +187,7 @@ const Home = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600">No vehicles available yet</p>
+              <p className="text-gray-600">Aucun véhicule disponible pour le moment</p>
             </div>
           )}
         </div>
