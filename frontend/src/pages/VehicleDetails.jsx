@@ -31,6 +31,81 @@ const VehicleDetails = () => {
     fetchVehicleDetails();
   }, [fetchVehicleDetails]);
 
+  useEffect(() => {
+    if (!vehicle) return;
+
+    const title = `${vehicle.brand} ${vehicle.model} à vendre au Congo | S.C.I.C.`;
+    const description = `${vehicle.brand} ${vehicle.model} ${vehicle.year || ''} à vendre au Congo-Brazzaville. Prix : ${formatPrice(vehicle.price)}. Localisation : ${vehicle.location}. Découvrez cette annonce sur Select Your Car In Congo (S.C.I.C.).`;
+    const image = vehicle.images?.[0];
+    const url = `https://selectyourcarincongo.com/vehicles/${id}`;
+
+    document.title = title;
+
+    const setMeta = (selector, attribute, value) => {
+      let meta = document.querySelector(selector);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute(attribute, selector.includes('property=') ? selector.match(/property="([^"]+)"/)?.[1] : selector.match(/name="([^"]+)"/)?.[1]);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', value);
+    };
+
+    setMeta('meta[name="description"]', 'name', description);
+    setMeta('meta[property="og:title"]', 'property', title);
+    setMeta('meta[property="og:description"]', 'property', description);
+    setMeta('meta[property="og:url"]', 'property', url);
+    setMeta('meta[property="og:type"]', 'property', 'product');
+    if (image) setMeta('meta[property="og:image"]', 'property', image);
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', url);
+
+    const existingSchema = document.getElementById('vehicle-structured-data');
+    if (existingSchema) existingSchema.remove();
+
+    const schema = document.createElement('script');
+    schema.id = 'vehicle-structured-data';
+    schema.type = 'application/ld+json';
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Vehicle',
+      name: `${vehicle.brand} ${vehicle.model}`,
+      brand: {
+        '@type': 'Brand',
+        name: vehicle.brand
+      },
+      model: vehicle.model,
+      vehicleModelDate: vehicle.year ? String(vehicle.year) : undefined,
+      mileageFromOdometer: vehicle.mileage != null ? {
+        '@type': 'QuantitativeValue',
+        value: vehicle.mileage,
+        unitCode: 'KMT'
+      } : undefined,
+      offers: {
+        '@type': 'Offer',
+        price: vehicle.price,
+        priceCurrency: 'XAF',
+        availability: 'https://schema.org/InStock',
+        url
+      },
+      image: image ? [image] : undefined,
+      description: vehicle.description || description,
+      url
+    });
+    document.head.appendChild(schema);
+
+    return () => {
+      const currentSchema = document.getElementById('vehicle-structured-data');
+      if (currentSchema) currentSchema.remove();
+    };
+  }, [vehicle, id]);
+
   const handleContactSeller = () => {
     if (!isAuthenticated()) {
       toast.info('Please login to contact seller');
@@ -75,7 +150,7 @@ const VehicleDetails = () => {
             <div className="relative bg-white rounded-lg overflow-hidden shadow-lg">
               <img
                 src={images[currentImageIndex]}
-                alt={`${vehicle.brand} ${vehicle.model}`}
+                alt={`${vehicle.brand} ${vehicle.model} à vendre au Congo`}
                 className="w-full h-96 object-cover"
               />
 
@@ -100,7 +175,7 @@ const VehicleDetails = () => {
                   >
                     <img
                       src={img}
-                      alt={`Thumbnail ${index + 1}`}
+                      alt={`${vehicle.brand} ${vehicle.model} - photo ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
                   </button>
