@@ -7,10 +7,10 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">S.C.I.C</h3>
+            <h3 className="text-xl font-bold mb-4">S.C.I.C. — Select Your Car In Congo</h3>
             <p className="text-gray-400">
-              Select Your Car In Congo - La première marketplace de véhicules en République du Congo.
-              Achetez, vendez et louez des véhicules en toute confiance.
+              Select Your Car In Congo (S.C.I.C.) est une plateforme automobile dédiée au Congo-Brazzaville.
+              Recherchez, achetez, vendez et louez des véhicules en ligne.
             </p>
           </div>
           
@@ -18,9 +18,9 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Liens rapides</h3>
             <ul className="space-y-2">
               <li><Link to="/" className="text-gray-400 hover:text-white transition">Accueil</Link></li>
-              <li><Link to="/vehicles" className="text-gray-400 hover:text-white transition">Parcourir les véhicules</Link></li>
-              <li><Link to="/register" className="text-gray-400 hover:text-white transition">Inscription</Link></li>
-              <li><Link to="/contact" className="text-gray-400 hover:text-white transition">Contact</Link></li>
+              <li><Link to="/vehicles" className="text-gray-400 hover:text-white transition">Véhicules à vendre et à louer</Link></li>
+              <li><Link to="/register" className="text-gray-400 hover:text-white transition">Créer un compte</Link></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-white transition">Contact S.C.I.C.</Link></li>
             </ul>
           </div>
           
@@ -34,7 +34,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2025 S.C.I.C - Select Your Car In Congo. Tous droits réservés.</p>
+          <p>&copy; 2026 S.C.I.C. — Select Your Car In Congo. Tous droits réservés.</p>
         </div>
       </div>
     </footer>
