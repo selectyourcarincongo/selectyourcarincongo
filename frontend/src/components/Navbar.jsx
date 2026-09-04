@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/ui/button';
 import { isAuthenticated, isAdmin, logout, getUser } from '@/utils/auth';
-import { Car, User, LogOut, LayoutDashboard, Plus } from 'lucide-react';
+import { User, LogOut, LayoutDashboard, Plus } from 'lucide-react';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -16,15 +16,17 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm" aria-label="Navigation principale">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Official S.C.I.C. logo */}
-          <Link to="/" className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3" aria-label="Accueil Select Your Car In Congo">
             <img 
               src="/logo.svg" 
-              alt="S.C.I.C - Select Your Car In Congo" 
+              alt="S.C.I.C. — Select Your Car In Congo" 
               className="h-16 w-auto"
+              width="128"
+              height="128"
             />
           </Link>
 
@@ -40,11 +42,11 @@ const Navbar = () => {
               <>
                 <Link to="/dashboard" className="text-gray-700 hover:text-primary font-medium transition flex items-center gap-2">
                   <LayoutDashboard className="h-4 w-4" />
-                  Dashboard
+                  Tableau de bord
                 </Link>
                 {admin && (
                   <Link to="/admin" className="text-gray-700 hover:text-primary font-medium transition">
-                    Admin
+                    Administration
                   </Link>
                 )}
               </>
@@ -62,7 +64,7 @@ const Navbar = () => {
                     className="flex items-center gap-2"
                   >
                     <Plus className="h-4 w-4" />
-                    Publier
+                    Publier une annonce
                   </Button>
                 )}
                 <Button
