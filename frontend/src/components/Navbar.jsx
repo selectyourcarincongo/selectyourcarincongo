@@ -19,10 +19,10 @@ const Navbar = () => {
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Official S.C.I.C. logo */}
           <Link to="/" className="flex items-center space-x-3">
             <img 
-              src="https://customer-assets.emergentagent.com/job_capture-transform/artifacts/yhmz58xt_23D1CF09-BBC9-4A14-BADD-6845DEB07D79.png" 
+              src="/logo.svg" 
               alt="S.C.I.C - Select Your Car In Congo" 
               className="h-16 w-auto"
             />
