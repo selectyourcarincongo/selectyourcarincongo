@@ -41,13 +41,14 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      <section className="relative h-[600px] overflow-hidden">
+      <section className="relative h-[600px] overflow-hidden" aria-label="Select Your Car In Congo - plateforme automobile au Congo-Brazzaville">
         {heroImages.map((image, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-1000 ${
               index === currentSlide ? 'opacity-100' : 'opacity-0'
             }`}
+            aria-hidden={index !== currentSlide}
           >
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -89,7 +90,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20" aria-label="Navigation du diaporama">
           {heroImages.map((_, index) => (
             <button
               key={index}
@@ -99,7 +100,8 @@ const Home = () => {
                   ? 'bg-white w-8'
                   : 'bg-white/50 hover:bg-white/75'
               }`}
-              aria-label={`Slide ${index + 1}`}
+              aria-label={`Afficher l'image ${index + 1}`}
+              aria-current={index === currentSlide ? 'true' : undefined}
             />
           ))}
         </div>
@@ -111,7 +113,7 @@ const Home = () => {
             Select Your Car In Congo (S.C.I.C.)
           </h2>
           <p className="text-lg leading-8 text-gray-600">
-            <strong>Select Your Car In Congo</strong>, aussi appelée <strong>S.C.I.C.</strong>, est une plateforme automobile dédiée au Congo-Brazzaville. Retrouvez des véhicules à vendre et à louer et recherchez selon la marque, le modèle, le prix, l'état et la localisation.
+            <strong>Select Your Car In Congo</strong>, aussi appelée <strong>S.C.I.C.</strong>, est une plateforme automobile dédiée au Congo-Brazzaville. Recherchez des véhicules à vendre ou à louer et consultez les annonces selon la marque, le modèle, le prix, l'état et la localisation. S.C.I.C. facilite la mise en relation entre acheteurs, vendeurs et loueurs au Congo.
           </p>
           <div className="mt-6 flex justify-center gap-4 flex-wrap">
             <Button variant="outline" onClick={() => navigate('/vehicles')}>
@@ -127,7 +129,7 @@ const Home = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
-            Pourquoi choisir S.C.I.C ?
+            Pourquoi choisir S.C.I.C. ?
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -135,32 +137,32 @@ const Home = () => {
               <div className="bg-primary-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Car className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Large Sélection</h3>
-              <p className="text-gray-600">Parcourez des centaines de véhicules de qualité</p>
+              <h3 className="text-xl font-semibold mb-2">Véhicules au Congo</h3>
+              <p className="text-gray-600">Consultez les annonces de véhicules disponibles à la vente ou à la location.</p>
             </div>
 
             <div className="text-center">
               <div className="bg-primary-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Annonces Vérifiées</h3>
-              <p className="text-gray-600">Tous les véhicules sont vérifiés par notre équipe</p>
+              <h3 className="text-xl font-semibold mb-2">Recherche pratique</h3>
+              <p className="text-gray-600">Filtrez les véhicules par marque, prix, état et localisation.</p>
             </div>
 
             <div className="text-center">
               <div className="bg-primary-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <DollarSign className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Meilleurs Prix</h3>
-              <p className="text-gray-600">Prix compétitifs dans toutes les catégories</p>
+              <h3 className="text-xl font-semibold mb-2">Vente et location</h3>
+              <p className="text-gray-600">Publiez une annonce pour vendre ou louer votre véhicule au Congo-Brazzaville.</p>
             </div>
 
             <div className="text-center">
               <div className="bg-primary-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Communauté de Confiance</h3>
-              <p className="text-gray-600">Rejoignez des milliers d'utilisateurs satisfaits</p>
+              <h3 className="text-xl font-semibold mb-2">Mise en relation</h3>
+              <p className="text-gray-600">S.C.I.C. met en relation les personnes intéressées par l'achat, la vente et la location de véhicules.</p>
             </div>
           </div>
         </div>
@@ -187,7 +189,7 @@ const Home = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600">Aucun véhicule disponible pour le moment</p>
+              <p className="text-gray-600">Aucun véhicule disponible pour le moment.</p>
             </div>
           )}
         </div>
@@ -195,9 +197,9 @@ const Home = () => {
 
       <section className="py-16 congo-gradient text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Prêt à Vendre ou Louer Votre Véhicule ?</h2>
+          <h2 className="text-3xl font-bold mb-4">Vendre ou louer votre véhicule au Congo ?</h2>
           <p className="text-xl mb-8 text-white/90">
-            Inscrivez-vous aujourd'hui : 3,000 FCFA (vente) ou 1,500 FCFA (location) + 1ère annonce gratuite !
+            Rejoignez S.C.I.C. et publiez votre première annonce de véhicule.
           </p>
           <Button
             size="lg"
