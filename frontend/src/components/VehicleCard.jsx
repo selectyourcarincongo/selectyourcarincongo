@@ -7,13 +7,17 @@ import { formatPrice } from '@/lib/utils';
 
 const VehicleCard = ({ vehicle }) => {
   const defaultImage = 'https://via.placeholder.com/400x300?text=No+Image';
-  
+  const vehicleName = `${vehicle.brand} ${vehicle.model}`;
+  const seoAlt = `${vehicleName}${vehicle.year ? ` ${vehicle.year}` : ''} au Congo-Brazzaville - Select Your Car In Congo`;
+
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative h-48 overflow-hidden">
         <img
           src={vehicle.images?.[0] || defaultImage}
-          alt={`${vehicle.brand} ${vehicle.model}`}
+          alt={seoAlt}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover"
         />
         <div className="absolute top-2 right-2 bg-accent text-accent-foreground px-3 py-1 rounded-full font-bold text-sm">
@@ -26,7 +30,7 @@ const VehicleCard = ({ vehicle }) => {
       
       <CardContent className="p-4">
         <h3 className="text-xl font-bold text-gray-900 mb-2">
-          {vehicle.brand} {vehicle.model}
+          {vehicleName}
         </h3>
         
         <div className="space-y-2 text-sm text-gray-600">
@@ -47,7 +51,7 @@ const VehicleCard = ({ vehicle }) => {
           
           <div className="flex items-center gap-2">
             <Eye className="h-4 w-4" />
-            <span>{vehicle.views} views</span>
+            <span>{vehicle.views} vues</span>
           </div>
         </div>
         
@@ -57,9 +61,14 @@ const VehicleCard = ({ vehicle }) => {
       </CardContent>
       
       <CardFooter className="p-4 pt-0">
-        <Link to={`/vehicles/${vehicle.id}`} className="w-full">
+        <Link
+          to={`/vehicles/${vehicle.id}`}
+          className="w-full"
+          aria-label={`Voir l'annonce ${vehicleName} sur Select Your Car In Congo`}
+          title={`Voir ${vehicleName}`}
+        >
           <Button className="w-full">
-            View Details
+            Voir les détails
           </Button>
         </Link>
       </CardFooter>
