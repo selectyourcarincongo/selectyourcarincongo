@@ -80,7 +80,6 @@ export async function onRequestGet() {
       headers: {
         "Content-Type": "application/xml; charset=UTF-8",
         "Cache-Control": "public, max-age=300, s-maxage=300",
-        "X-Robots-Tag": "noindex",
       },
     });
   } catch (error) {
