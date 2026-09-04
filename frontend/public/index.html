@@ -4,29 +4,35 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
+        <meta name="application-name" content="Select Your Car In Congo" />
+        <meta name="author" content="Select Your Car In Congo (S.C.I.C.)" />
         <meta name="description" content="Select Your Car In Congo (S.C.I.C.) est la plateforme automobile au Congo-Brazzaville pour rechercher, acheter, vendre et louer des véhicules." />
-        <meta name="robots" content="index, follow" />
+        <meta name="robots" content="index, follow, max-image-preview:large" />
 
-        <!-- Canonical URL -->
         <link rel="canonical" href="https://selectyourcarincongo.com/" />
 
-        <!-- Official S.C.I.C. site icon -->
-        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-        <link rel="apple-touch-icon" href="/logo.svg" />
+        <!-- Official S.C.I.C. favicon -->
+        <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
 
         <!-- Social / link preview -->
         <meta property="og:type" content="website" />
+        <meta property="og:locale" content="fr_FR" />
         <meta property="og:url" content="https://selectyourcarincongo.com/" />
         <meta property="og:title" content="Select Your Car In Congo | S.C.I.C." />
         <meta property="og:description" content="La plateforme automobile au Congo-Brazzaville pour rechercher, acheter, vendre et louer des véhicules." />
-        <meta property="og:image" content="https://selectyourcarincongo.com/logo.svg" />
+        <meta property="og:image" content="https://selectyourcarincongo.com/favicon.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="128" />
+        <meta property="og:image:height" content="128" />
         <meta property="og:image:alt" content="Logo officiel S.C.I.C. - Select Your Car In Congo" />
         <meta property="og:site_name" content="Select Your Car In Congo" />
 
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="Select Your Car In Congo | S.C.I.C." />
         <meta name="twitter:description" content="La plateforme automobile au Congo-Brazzaville pour rechercher, acheter, vendre et louer des véhicules." />
-        <meta name="twitter:image" content="https://selectyourcarincongo.com/logo.svg" />
+        <meta name="twitter:image" content="https://selectyourcarincongo.com/favicon.png" />
+        <meta name="twitter:image:alt" content="Logo officiel S.C.I.C. - Select Your Car In Congo" />
 
         <title>Select Your Car In Congo | S.C.I.C.</title>
 
@@ -36,8 +42,9 @@
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "Select Your Car In Congo",
-          "alternateName": "S.C.I.C.",
-          "url": "https://selectyourcarincongo.com/"
+          "alternateName": ["S.C.I.C.", "Select Your Car Congo"],
+          "url": "https://selectyourcarincongo.com/",
+          "inLanguage": "fr"
         }
         </script>
 
@@ -47,9 +54,10 @@
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "Select Your Car In Congo",
-          "alternateName": "S.C.I.C.",
+          "alternateName": ["S.C.I.C.", "Select Your Car Congo"],
           "url": "https://selectyourcarincongo.com/",
-          "logo": "https://selectyourcarincongo.com/logo.svg"
+          "logo": "https://selectyourcarincongo.com/favicon.png",
+          "description": "Plateforme automobile au Congo-Brazzaville pour rechercher, acheter, vendre et louer des véhicules."
         }
         </script>
 
@@ -79,18 +87,15 @@
         <script>
             // Only load visual edit scripts when inside an iframe
             if (window.self !== window.top) {
-                // Load debug monitor script
                 var debugMonitorScript = document.createElement('script');
                 debugMonitorScript.src = 'https://assets.emergent.sh/scripts/debug-monitor.js';
                 document.head.appendChild(debugMonitorScript);
 
-                // Configure Tailwind
                 window.tailwind = window.tailwind || {};
                 tailwind.config = {
                     corePlugins: { preflight: false },
                 };
 
-                // Load Tailwind CDN
                 var tailwindScript = document.createElement('script');
                 tailwindScript.src = 'https://cdn.tailwindcss.com';
                 document.head.appendChild(tailwindScript);
@@ -98,7 +103,7 @@
         </script>
     </head>
     <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <noscript>Activez JavaScript pour utiliser Select Your Car In Congo.</noscript>
         <div id="root"></div>
         <script>
             !(function (t, e) {
@@ -111,51 +116,28 @@
                             var o = e.split(".");
                             2 == o.length && ((t = t[o[0]]), (e = o[1])),
                                 (t[e] = function () {
-                                    t.push(
-                                        [e].concat(
-                                            Array.prototype.slice.call(
-                                                arguments,
-                                                0,
-                                            ),
-                                        ),
-                                    );
+                                    t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
                                 });
                         }
-                        ((p = t.createElement("script")).type =
-                            "text/javascript"),
+                        ((p = t.createElement("script")).type = "text/javascript"),
                             (p.crossOrigin = "anonymous"),
                             (p.async = !0),
-                            (p.src =
-                                s.api_host.replace(
-                                    ".i.posthog.com",
-                                    "-assets.i.posthog.com",
-                                ) + "/static/array.js"),
-                            (r =
-                                t.getElementsByTagName(
-                                    "script",
-                                )[0]).parentNode.insertBefore(p, r);
+                            (p.src = s.api_host.replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.js"),
+                            (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r);
                         var u = e;
                         for (
                             void 0 !== a ? (u = e[a] = []) : (a = "posthog"),
                                 u.people = u.people || [],
                                 u.toString = function (t) {
                                     var e = "posthog";
-                                    return (
-                                        "posthog" !== a && (e += "." + a),
-                                        t || (e += " (stub)"),
-                                        e
-                                    );
+                                    return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e;
                                 },
-                                u.people.toString = function () {
-                                    return u.toString(1) + ".people (stub)";
-                                },
-                                o =
-                                    "init me ws ys ps bs capture je Di register register_once register_for_session unregister unregister_for_session Ps getFeatureFlag getFeatureFlagPayload isFeatureEnabled onFeatureFlags featureFlagsClient addEventListener removeEventListener _capture_metrics _identify _reset",
+                                u.people.toString = function () { return u.toString(1) + ".people (stub)"; },
+                                o = "init me ws ys ps bs capture je Di register register_once register_for_session unregister unregister_for_session Ps getFeatureFlag getFeatureFlagPayload isFeatureEnabled onFeatureFlags featureFlagsClient addEventListener removeEventListener _capture_metrics _identify _reset",
                                 n = 0;
                             n < o.length;
                             n++
-                        )
-                            g(u, o[n]);
+                        ) g(u, o[n]);
                         e._i.push([i, s, a]);
                     }),
                     (e.__SV = 1));
