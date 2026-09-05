@@ -35,8 +35,23 @@ const VehicleDetails = () => {
     if (!vehicle) return;
 
     const vehicleName = `${vehicle.brand} ${vehicle.model}`;
-    const title = `${vehicleName}${vehicle.year ? ` ${vehicle.year}` : ''} au Congo | S.C.I.C.`;
-    const description = `${vehicleName}${vehicle.year ? ` ${vehicle.year}` : ''} au Congo-Brazzaville. Prix : ${formatPrice(vehicle.price)}. Localisation : ${vehicle.location}. Consultez l'annonce et les détails sur Select Your Car In Congo (S.C.I.C.).`;
+    const transactionType = vehicle.vehicle_type === 'rental' ? 'à louer' : 'à vendre';
+    const priceLabel = `${formatPrice(vehicle.price)} FCFA`;
+    const yearLabel = vehicle.year ? ` ${vehicle.year}` : '';
+    const mileageLabel = vehicle.mileage != null
+      ? ` ${vehicle.mileage.toLocaleString()} km`
+      : '';
+
+    const title = `${vehicleName}${yearLabel} ${transactionType} au Congo | S.C.I.C.`;
+
+    const description =
+      `${vehicleName}${yearLabel} ${transactionType} au Congo-Brazzaville. ` +
+      `Prix : ${priceLabel}. ` +
+      `Kilométrage :${mileageLabel || ' non précisé'}. ` +
+      `Localisation : ${vehicle.location}. ` +
+      `${vehicle.condition ? `État : ${vehicle.condition}. ` : ''}` +
+      `Consultez l'annonce complète sur Select Your Car In Congo (S.C.I.C.).`;
+
     const image = vehicle.images?.[0];
     const url = `https://selectyourcarincongo.com/vehicles/${id}`;
 
@@ -44,35 +59,58 @@ const VehicleDetails = () => {
 
     const setMeta = (selector, attribute, value) => {
       let meta = document.querySelector(selector);
+
       if (!meta) {
         meta = document.createElement('meta');
         const match = selector.match(/(?:property|name)="([^"]+)"/);
-        if (match) meta.setAttribute(attribute, match[1]);
+
+        if (match) {
+          meta.setAttribute(attribute, match[1]);
+        }
+
         document.head.appendChild(meta);
       }
+
       meta.setAttribute('content', value);
     };
 
     setMeta('meta[name="description"]', 'name', description);
+
     setMeta('meta[property="og:title"]', 'property', title);
     setMeta('meta[property="og:description"]', 'property', description);
     setMeta('meta[property="og:url"]', 'property', url);
     setMeta('meta[property="og:type"]', 'property', 'product');
+    setMeta('meta[property="og:site_name"]', 'property', 'Select Your Car In Congo');
+    setMeta('meta[property="og:locale"]', 'property', 'fr_CG');
+
+    setMeta('meta[name="twitter:card"]', 'name', 'summary_large_image');
     setMeta('meta[name="twitter:title"]', 'name', title);
     setMeta('meta[name="twitter:description"]', 'name', description);
+
     if (image) {
       setMeta('meta[property="og:image"]', 'property', image);
-      setMeta('meta[property="og:image:alt"]', 'property', `${vehicleName} au Congo-Brazzaville`);
+      setMeta(
+        'meta[property="og:image:alt"]',
+        'property',
+        `${vehicleName}${yearLabel} ${transactionType} au Congo-Brazzaville`
+      );
+
       setMeta('meta[name="twitter:image"]', 'name', image);
-      setMeta('meta[name="twitter:image:alt"]', 'name', `${vehicleName} au Congo-Brazzaville`);
+      setMeta(
+        'meta[name="twitter:image:alt"]',
+        'name',
+        `${vehicleName}${yearLabel} ${transactionType} au Congo-Brazzaville`
+      );
     }
 
     let canonical = document.querySelector('link[rel="canonical"]');
+
     if (!canonical) {
       canonical = document.createElement('link');
       canonical.rel = 'canonical';
       document.head.appendChild(canonical);
     }
+
     canonical.setAttribute('href', url);
 
     const existingSchema = document.getElementById('vehicle-structured-data');
@@ -81,7 +119,8 @@ const VehicleDetails = () => {
     const schema = document.createElement('script');
     schema.id = 'vehicle-structured-data';
     schema.type = 'application/ld+json';
-    schema.textContent = JSON.stringify({
+
+    const vehicleSchema = {
       '@context': 'https://schema.org',
       '@type': 'Vehicle',
       name: vehicleName,
@@ -91,31 +130,50 @@ const VehicleDetails = () => {
       },
       model: vehicle.model,
       vehicleModelDate: vehicle.year ? String(vehicle.year) : undefined,
-      mileageFromOdometer: vehicle.mileage != null ? {
-        '@type': 'QuantitativeValue',
-        value: vehicle.mileage,
-        unitCode: 'KMT'
-      } : undefined,
+      mileageFromOdometer: vehicle.mileage != null
+        ? {
+            '@type': 'QuantitativeValue',
+            value: vehicle.mileage,
+            unitCode: 'KMT'
+          }
+        : undefined,
+      vehicleCondition: vehicle.condition
+        ? `https://schema.org/${vehicle.condition === 'excellent' ? 'NewCondition' : 'UsedCondition'}`
+        : undefined,
       offers: {
         '@type': 'Offer',
         price: vehicle.price,
         priceCurrency: 'XAF',
         availability: 'https://schema.org/InStock',
-        url
+        url,
+        itemCondition: 'https://schema.org/UsedCondition',
+        areaServed: {
+          '@type': 'Country',
+          name: 'Republic of the Congo'
+        }
       },
-      image: image ? [image] : undefined,
+      image: vehicle.images?.length ? vehicle.images : undefined,
       description: vehicle.description || description,
       url,
-      mainEntityOfPage: url
-    });
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': url
+      }
+    };
+
+    schema.textContent = JSON.stringify(vehicleSchema);
     document.head.appendChild(schema);
 
-    const existingBreadcrumbSchema = document.getElementById('vehicle-breadcrumb-structured-data');
+    const existingBreadcrumbSchema = document.getElementById(
+      'vehicle-breadcrumb-structured-data'
+    );
+
     if (existingBreadcrumbSchema) existingBreadcrumbSchema.remove();
 
     const breadcrumbSchema = document.createElement('script');
     breadcrumbSchema.id = 'vehicle-breadcrumb-structured-data';
     breadcrumbSchema.type = 'application/ld+json';
+
     breadcrumbSchema.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
@@ -140,12 +198,16 @@ const VehicleDetails = () => {
         }
       ]
     });
+
     document.head.appendChild(breadcrumbSchema);
 
     return () => {
       const currentSchema = document.getElementById('vehicle-structured-data');
       if (currentSchema) currentSchema.remove();
-      const currentBreadcrumbSchema = document.getElementById('vehicle-breadcrumb-structured-data');
+
+      const currentBreadcrumbSchema = document.getElementById(
+        'vehicle-breadcrumb-structured-data'
+      );
       if (currentBreadcrumbSchema) currentBreadcrumbSchema.remove();
     };
   }, [vehicle, id]);
