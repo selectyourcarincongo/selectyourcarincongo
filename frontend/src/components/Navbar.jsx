@@ -22,7 +22,7 @@ const Navbar = () => {
           {/* Official S.C.I.C. logo */}
           <Link to="/" className="flex items-center space-x-3" aria-label="Accueil Select Your Car In Congo">
             <img 
-              src="/logo.svg" 
+              src="/logo.webp" 
               alt="S.C.I.C. — Select Your Car In Congo" 
               className="h-16 w-auto"
             />
