@@ -25,8 +25,6 @@ const Navbar = () => {
               src="/logo.svg" 
               alt="S.C.I.C. — Select Your Car In Congo" 
               className="h-16 w-auto"
-              width="256"
-              height="157"
             />
           </Link>
 
